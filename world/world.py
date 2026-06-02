@@ -37,7 +37,7 @@ class TicTacToeEnvironment:
         self.turn = self.first_turn
         self.done = False
 
-        return self
+        return self.board.copy()
 
     def check_winner(self) -> Tuple[bool, int]:
         """Checks if someone has won
