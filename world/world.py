@@ -113,7 +113,7 @@ class TicTacToeEnvironment:
         self.done = done
         self.turn = 1 if self.turn == 2 else 2
 
-        return (self.board, None, done, info)
+        return (self.board.copy(), None, done, info)
 
     # ToDo
     def render(self, mode: Literal["gui", "headless"] = "headless") -> None:
