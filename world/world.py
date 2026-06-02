@@ -17,7 +17,7 @@ class TicTacToeEnvironment:
         self.first_turn: int = 1  # X moves first by default
         self.turn: int = self.first_turn
         self.done: bool = False
-        self.screen: pygame.display | None = None
+        self.screen: pygame.Surface | None = None
         self.screen_size: int = 300
         self.cell_size: int = 100
 
@@ -54,9 +54,13 @@ class TicTacToeEnvironment:
             if np.all(self.board[i, :] == 2) or np.all(self.board[:, i] == 2):
                 return (True, 2)
 
-        if np.all(np.diag(self.board) == 1) or np.all(np.diag(np.fliplr(self.board)) == 1):
+        if np.all(np.diag(self.board) == 1) or np.all(
+            np.diag(np.fliplr(self.board)) == 1
+        ):
             return (True, 1)
-        if np.all(np.diag(self.board) == 2) or np.all(np.diag(np.fliplr(self.board)) == 2):
+        if np.all(np.diag(self.board) == 2) or np.all(
+            np.diag(np.fliplr(self.board)) == 2
+        ):
             return (True, 2)
 
         if np.count_nonzero(self.board) >= 9:
@@ -129,7 +133,7 @@ class TicTacToeEnvironment:
 
     def render(self, mode: Literal["gui", "cli", "headless"] = "gui") -> None:
         """Renders the representation of game state
-        
+
         Args:
             mode: either "gui" for pygame gui,"cli" for command line output or "headless" for no output.
         """
@@ -137,40 +141,70 @@ class TicTacToeEnvironment:
         if mode == "headless":
             return
         if mode == "cli":
-            print_board: np.ndarray = np.where(self.board == 0, "_", np.where(self.board == 1, "X", "O"))
-            print('*' * 8)
-            print('')
+            print_board: np.ndarray = np.where(
+                self.board == 0, "_", np.where(self.board == 1, "X", "O")
+            )
+            print("*" * 8)
+            print("")
             for row in print_board:
                 print(f"\t{' '.join(row)}")
-            print('')
-            print('-' * 8)
+            print("")
+            print("-" * 8)
             return
         if mode == "gui":
             if self.screen is None:
                 pygame.init()
-                self.screen = pygame.display.set_mode((self.screen_size, self.screen_size))
-                pygame.display.set_caption('Tic-Tac-Toe')
+                self.screen = pygame.display.set_mode(
+                    (self.screen_size, self.screen_size)
+                )
+                pygame.display.set_caption("Tic-Tac-Toe")
 
-            self.screen.fill((255,255,255))
+            self.screen.fill((255, 255, 255))
 
-            for i in range(1,3):
-                pygame.draw.line(self.screen, (0,0,0), (i*self.cell_size,0), (i*self.cell_size, self.screen_size), 2)
-                pygame.draw.line(self.screen, (0,0,0), (0, i*self.cell_size), (self.screen_size, i*self.cell_size), 2)
+            for i in range(1, 3):
+                pygame.draw.line(
+                    self.screen,
+                    (0, 0, 0),
+                    (i * self.cell_size, 0),
+                    (i * self.cell_size, self.screen_size),
+                    2,
+                )
+                pygame.draw.line(
+                    self.screen,
+                    (0, 0, 0),
+                    (0, i * self.cell_size),
+                    (self.screen_size, i * self.cell_size),
+                    2,
+                )
 
             for row in range(3):
                 for col in range(3):
-                    cell_value = self.board[row,col]
-                    center = (col * self.cell_size + self.cell_size // 2, row * self.cell_size + self.cell_size // 2)
+                    cell_value = self.board[row, col]
+                    center = (
+                        col * self.cell_size + self.cell_size // 2,
+                        row * self.cell_size + self.cell_size // 2,
+                    )
 
                     if cell_value == 1:
-                        pygame.draw.line(self.screen, (255,0,0), (center[0] - 30, center[1] - 30), (center[0] + 30, center[1] + 30), 5)
-                        pygame.draw.line(self.screen, (255,0,0), (center[0] - 30, center[1] + 30), (center[0] + 30, center[1] - 30), 5)
+                        pygame.draw.line(
+                            self.screen,
+                            (255, 0, 0),
+                            (center[0] - 30, center[1] - 30),
+                            (center[0] + 30, center[1] + 30),
+                            5,
+                        )
+                        pygame.draw.line(
+                            self.screen,
+                            (255, 0, 0),
+                            (center[0] - 30, center[1] + 30),
+                            (center[0] + 30, center[1] - 30),
+                            5,
+                        )
                     elif cell_value == 2:
-                        pygame.draw.circle(self.screen, (0,0,255), center, 30, 5)
-            
+                        pygame.draw.circle(self.screen, (0, 0, 255), center, 30, 5)
+
             pygame.display.flip()
 
     def close(self) -> None:
-        """Quits pygame on destruction of the environment
-        """
+        """Quits pygame on destruction of the environment"""
         pygame.quit()

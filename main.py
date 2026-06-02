@@ -1,12 +1,13 @@
 import pygame
-from world.world import TicTacToeEnvironment
+from world import TicTacToeEnvironment
 
-def main():
+
+def main() -> None:
     env: TicTacToeEnvironment = TicTacToeEnvironment()
     running: bool = True
     done: bool = False
     env.render()
-    while(running):
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -19,16 +20,17 @@ def main():
                 x, y = pygame.mouse.get_pos()
                 col: int = x // env.cell_size
                 row: int = y // env.cell_size
-                _, _, done, winner = env.step((row,col))
+                _, _, done, winner = env.step((row, col))
                 if done:
                     symbol: str = "Draw"
                     if winner == 1:
-                        symbol = 'X'
+                        symbol = "X"
                     if winner == 2:
-                        symbol = 'O'
+                        symbol = "O"
                     print(f"Winner is {symbol}")
                 env.render()
     env.close()
+
 
 if __name__ == "__main__":
     main()
