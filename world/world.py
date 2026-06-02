@@ -35,9 +35,8 @@ class TicTacToeEnvironment:
         """
 
         self.board = np.zeros((3, 3)).astype(int)
-        self.first_turn = (
-            1 if self.turn == 2 else 2
-        )  # We change who moves first in each new game
+        # We change who moves first in each new game
+        self.first_turn = 1 if self.first_turn == 2 else 2
         self.turn = self.first_turn
         self.done = False
 
@@ -55,9 +54,9 @@ class TicTacToeEnvironment:
             if np.all(self.board[i, :] == 2) or np.all(self.board[:, i] == 2):
                 return (True, 2)
 
-        if np.all(np.diag(self.board) == 1) or np.all(np.fliplr(self.board) == 1):
+        if np.all(np.diag(self.board) == 1) or np.all(np.diag(np.fliplr(self.board)) == 1):
             return (True, 1)
-        if np.all(np.diag(self.board) == 2) or np.all(np.fliplr(self.board) == 2):
+        if np.all(np.diag(self.board) == 2) or np.all(np.diag(np.fliplr(self.board)) == 2):
             return (True, 2)
 
         if np.count_nonzero(self.board) >= 9:
@@ -171,7 +170,7 @@ class TicTacToeEnvironment:
             
             pygame.display.flip()
 
-    def __del__(self) -> None:
+    def close(self) -> None:
         """Quits pygame on destruction of the environment
         """
         pygame.quit()
