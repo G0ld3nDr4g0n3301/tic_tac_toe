@@ -56,7 +56,7 @@ class TicTacToeEnvironment:
         if np.all(np.diag(self.board) == 2) or np.all(np.fliplr(self.board) == 2):
             return (True, 2)
 
-        if np.sum(self.board) >= 9:
+        if np.count_nonzero(self.board) >= 9:
             return (True, 0)
 
         return (False, 0)
