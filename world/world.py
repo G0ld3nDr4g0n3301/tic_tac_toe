@@ -23,7 +23,7 @@ class TicTacToeEnvironment:
             else:
                 raise ValueError
 
-    def reset(self) -> TicTacToeEnvironment:
+    def reset(self) -> np.ndarray:
         """Resets the board for new game
 
         Returns:
@@ -114,6 +114,15 @@ class TicTacToeEnvironment:
         self.turn = 1 if self.turn == 2 else 2
 
         return (self.board.copy(), None, done, info)
+
+    def get_available_actions(self) -> List[Tuple[int, int]]:
+        """Returns list of available actions
+
+        Returns:
+            List of tuples with row and column indices of possible moves
+        """
+
+        return [tuple(idx) for idx in np.argwhere(self.board == 0)]
 
     # ToDo
     def render(self, mode: Literal["gui", "headless"] = "headless") -> None:
