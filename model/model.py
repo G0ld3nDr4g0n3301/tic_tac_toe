@@ -89,7 +89,8 @@ class TD0Agent:
         agent_state: np.ndarray = self.get_filtered_state(state.copy())
 
         if random() < self.exploration_chance:
-            best_action = np.random.choice(available_actions)
+            rand_idx: int = np.random.choice(len(available_actions))
+            best_action = available_actions[rand_idx]
         else:
             for action in available_actions:
                 new_state: np.ndarray = agent_state.copy()
