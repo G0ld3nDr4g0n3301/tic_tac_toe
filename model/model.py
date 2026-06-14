@@ -114,6 +114,8 @@ class TD0Agent:
             value: in case of gameover, value is non empty and contains 1 if it was a win, 0 if it was a loss, 0.5 otherwise
         """
 
+        state = self.get_filtered_state(state.copy())
+        new_state = self.get_filtered_state(new_state.copy())
         new_value: float
         if value is not None:
             self.table[self.get_canonical_form(new_state)] = value

@@ -111,13 +111,17 @@ class AgentManager:
                     )
                     opponent_role = 1 if current_role == 2 else 2
                     if winner == 0:
-                        current_agent.update_value(last_state_after_move[current_role], new_state, 0.5)
+                        current_agent.update_value(
+                            last_state_after_move[current_role], new_state, 0.5
+                        )
                         other_agent.update_value(
                             last_state_after_move[opponent_role], new_state, 0.5
                         )
                         stats["Draws"] += 1
                     else:
-                        current_agent.update_value(state, new_state, 1.0)
+                        current_agent.update_value(
+                            last_state_after_move[current_role], new_state, 1.0
+                        )
                         other_agent.update_value(
                             last_state_after_move[opponent_role], new_state, 0.0
                         )
@@ -136,6 +140,8 @@ class AgentManager:
                 state = new_state
 
                 if done and (game + 1) % (games_count / 10) == 0:
-                    print(f"Games played: {game + 1}/{games_count}. epsilon: {current_epsilon}. lr: {current_lr}. Stats: {stats}")
+                    print(
+                        f"Games played: {game + 1}/{games_count}. epsilon: {current_epsilon}. lr: {current_lr}. Stats: {stats}"
+                    )
 
         return agentX
